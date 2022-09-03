@@ -1,0 +1,16 @@
+@use "@carbon/react/scss/spacing" as *;
+
+.headerWrapper {
+    margin-top: $spacing-05;
+    margin-bottom: $spacing-03;
+}
+.gridItem {
+    margin-bottom: $spacing-05;
+}
+
+.contentWrapper {
+    background-color: #f4f4f4;
+}
+.headerWrapper{
+    background-color: white;
+}
