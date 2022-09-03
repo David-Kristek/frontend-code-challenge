@@ -2,10 +2,9 @@ query getPokemons($query: PokemonsQueryInput!) {
   pokemons(query: $query) {
     edges {
       id
-      number
       name
-      maxHP
       image
+      types
     }
   }
 }

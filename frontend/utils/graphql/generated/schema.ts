@@ -137,7 +137,7 @@ export type GetPokemonsQueryVariables = Exact<{
 }>;
 
 
-export type GetPokemonsQuery = { __typename?: 'Query', pokemons: { __typename?: 'PokemonConnection', edges: Array<{ __typename?: 'Pokemon', id: string, number: number, name: string, maxHP: number, image: string }> } };
+export type GetPokemonsQuery = { __typename?: 'Query', pokemons: { __typename?: 'PokemonConnection', edges: Array<{ __typename?: 'Pokemon', id: string, name: string, image: string, types: Array<string> }> } };
 
 
 export const GetPokemonsDocument = gql`
@@ -145,10 +145,9 @@ export const GetPokemonsDocument = gql`
   pokemons(query: $query) {
     edges {
       id
-      number
       name
-      maxHP
       image
+      types
     }
   }
 }

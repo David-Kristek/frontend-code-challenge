@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Column, Dropdown, Grid, Search } from "carbon-components-react";
-import styles from "../layouts/layouts.module.scss";
+import styles from "./Home.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 
 const Filters: React.FC<{}> = () => {
