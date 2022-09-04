@@ -1,0 +1,69 @@
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/breakpoint" as *;
+
+.gridItem {
+    margin-bottom: $spacing-05;
+}
+.icon {
+    // background-color: #f4f4f4;
+    width: $spacing-07;
+    height: $spacing-07;
+    cursor: pointer;
+}
+.iconBox {
+    display: flex;
+    height: $spacing-08;
+    align-items: center;
+    gap: $spacing-06;
+    @include breakpoint-down(lg) {
+        gap: $spacing-02;
+    }
+}
+
+.card {
+    background-color: white;
+    margin: $spacing-02;
+    padding: $spacing-05;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        .icon {
+            grid-area: 1 / 2 / span 2 / 2;
+            margin: auto;
+            margin-right: $spacing-02;
+            color: red;
+        }
+        .animate {
+            animation: liked 0.5s ease;
+        }
+    }
+}
+
+.pokemonImage {
+    object-fit: contain;
+    transition: all 0.2s;
+    margin: auto;
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+        transform: scale(1.05);
+        transform-origin: bottom;
+    }
+}
+
+@keyframes liked {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

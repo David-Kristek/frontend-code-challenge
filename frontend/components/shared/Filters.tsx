@@ -1,13 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Column, Dropdown, Grid, Search } from "carbon-components-react";
-import styles from "./Home.module.scss";
+import styles from "./Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 
 const Filters: React.FC<{}> = () => {
   return (
     <Grid style={{ margin: "2rem 0" }}>
-      <Column xlg={{ span: 7 }} lg={{ span: 6 }} md={{ span: 4 }} sm={{ span: 4 }}>
+      <Column
+        xlg={{ span: 7 }}
+        lg={{ span: 6 }}
+        md={{ span: 4 }}
+        sm={{ span: 4 }}
+      >
         <Search
           closeButtonLabelText="Clear search input"
           labelText="Search"
@@ -17,7 +22,12 @@ const Filters: React.FC<{}> = () => {
           className={styles.gridItem}
         />
       </Column>
-      <Column xlg={{ span: 2, offset: 8 }} lg={{ span: 3 }} md={{ span: 3 }} sm={{ span: 3 }}>
+      <Column
+        xlg={{ span: 2, offset: 8 }}
+        lg={{ span: 3 }}
+        md={{ span: 3 }}
+        sm={{ span: 3 }}
+      >
         <Dropdown
           id="dropdown-1"
           items={[

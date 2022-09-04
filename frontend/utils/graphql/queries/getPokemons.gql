@@ -5,6 +5,7 @@ query getPokemons($query: PokemonsQueryInput!) {
       name
       image
       types
+      isFavorite
     }
   }
 }
