@@ -10,7 +10,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <>
+    <div className={styles.contentWrapper}>
       <div className={styles.headerWrapper}>
         <Grid>
           <Column
@@ -22,18 +22,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </Column>
         </Grid>
       </div>
-      <div className={styles.contentWrapper}>
-        <Grid>
-          <Column
-            lg={{ span: 12, offset: 2 }}
-            md={{ span: 8 }}
-            sm={{ span: 4 }}
-          >
-            <main>{children}</main>
-          </Column>
-        </Grid>
-      </div>
-    </>
+      <Grid>
+        <Column lg={{ span: 12, offset: 2 }} md={{ span: 8 }} sm={{ span: 4 }}>
+          <main>{children}</main>
+        </Column>
+      </Grid>
+    </div>
   );
 };
 

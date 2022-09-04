@@ -22,6 +22,7 @@ const PokemonList: React.FC<{
           lg={{ span: 4 }}
           md={{ span: 4 }}
           sm={{ span: 4 }}
+          key={pokemon.id}
         >
           <PokemonCard {...pokemon} />
         </Column>

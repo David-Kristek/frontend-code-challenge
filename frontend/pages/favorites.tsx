@@ -6,13 +6,15 @@ import Filters from "../components/shared/Filters";
 import PokemonList from "../components/shared/PokemonList";
 
 const Home: NextPage = () => {
-  const { data, loading } = useGetPokemonsQuery({ variables: { query: {} } });
+  const { data, loading } = useGetPokemonsQuery({
+    variables: { query: { filter: { isFavorite: true } } },
+  });
   if (loading) return <Loading />;
   if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
   return (
     <div>
       <Head>
-        <title>Pokedex</title>
+        <title>Favorites</title>
       </Head>
       <Filters />
       <PokemonList pokemons={data.pokemons.edges} />
