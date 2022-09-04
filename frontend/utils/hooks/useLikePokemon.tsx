@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Column, Grid } from "carbon-components-react";
 import {
   GetPokemonsDocument,
-  GetPokemonsQuery,
   useFavoritePokemonMutation,
   useUnFavoritePokemonMutation,
 } from "../graphql/generated/schema";

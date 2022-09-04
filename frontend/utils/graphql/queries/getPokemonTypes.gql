@@ -1,0 +1,3 @@
+query getPokemonTypes{
+  pokemonTypes
+}
