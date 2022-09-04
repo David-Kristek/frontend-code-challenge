@@ -4,6 +4,7 @@ import styles from "./Shared.module.scss";
 import Link from "next/link";
 import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
+import { LayoutType } from "./PokemonList";
 
 interface CardProps {
   image: string;
@@ -11,6 +12,7 @@ interface CardProps {
   types: string[];
   id: string;
   isFavorite: boolean;
+  layoutType?: LayoutType;
 }
 
 const PokemonCard: React.FC<CardProps> = ({
@@ -19,6 +21,7 @@ const PokemonCard: React.FC<CardProps> = ({
   types,
   id: pokemonId,
   isFavorite: isFavoriteFromServer,
+  layoutType,
 }) => {
   const { isFavorite, toggleFavorite, animate, endAnimation } = useLikePokemon({
     pokemonId,
@@ -26,10 +29,16 @@ const PokemonCard: React.FC<CardProps> = ({
   });
   return (
     <>
-      <Link href={name}>
-        <img src={image} alt={name} className={styles.pokemonImage} />
-      </Link>
-      <div className={styles.content}>
+      <div
+        className={`${styles.content} ${
+          layoutType === LayoutType.GRID
+            ? styles.gridContent
+            : styles.listContent
+        }`}
+      >
+        <Link href={name}>
+          <img src={image} alt={name} className={styles.pokemonImage} />
+        </Link>
         <h3>{name} </h3>
         {isFavorite ? (
           <FavoriteFilled

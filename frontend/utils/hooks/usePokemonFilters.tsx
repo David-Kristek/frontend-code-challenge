@@ -4,6 +4,11 @@ import styles from "../../components/shared/Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 import PokemonTypesDropdown from "../../components/shared/PokemonTypesDropdown";
 import useDebounceValue from "./useDebounceValue";
+import {
+  LayoutType,
+  PokemonListLayoutAtom,
+} from "../../components/shared/PokemonList";
+import { useAtom } from "jotai";
 
 interface usePokemonFiltersProps {
   filterFavorite?: boolean;
@@ -12,9 +17,12 @@ interface usePokemonFiltersProps {
 const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   const [selectedType, setSelectedType] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [layoutType, setLayoutType] = useAtom(PokemonListLayoutAtom);
   const debouncedSearch = useDebounceValue(searchValue, 400);
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
+  const setGridLayout = () => setLayoutType(LayoutType.GRID);
+  const setListLayout = () => setLayoutType(LayoutType.LIST);
   return {
     queryParams: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },
@@ -55,8 +63,18 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
           sm={{ span: 1 }}
           className={styles.iconBox}
         >
-          <Thumbnail_2 className={styles.icon} />
-          <Table className={styles.icon} />
+          <Thumbnail_2
+            className={`${styles.icon} ${
+              layoutType === LayoutType.GRID ? styles.activeIcon : ""
+            }`}
+            onClick={setGridLayout}
+          />
+          <Table
+            className={`${styles.icon} ${
+              layoutType === LayoutType.LIST ? styles.activeIcon : ""
+            }`}
+            onClick={setListLayout}
+          />
         </Column>
       </Grid>
     ),

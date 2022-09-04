@@ -9,14 +9,21 @@
     width: $spacing-07;
     height: $spacing-07;
     cursor: pointer;
+    padding: $spacing-02;
 }
 .iconBox {
     display: flex;
     height: $spacing-08;
     align-items: center;
-    gap: $spacing-06;
+    gap: $spacing-04;
     @include breakpoint-down(lg) {
-        gap: $spacing-02;
+        gap: $spacing-01;
+        margin: auto;
+    }
+    .icon {
+        padding: $spacing-02;
+        transition: .2s;
+        border-radius: $spacing-02;
     }
 }
 
@@ -29,15 +36,42 @@
     flex-direction: column;
     .content {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        transition: 2s;
         .icon {
-            grid-area: 1 / 2 / span 2 / 2;
-            margin: auto;
-            margin-right: $spacing-02;
             color: red;
         }
         .animate {
             animation: liked 0.5s ease;
+        }
+    }
+    .gridContent {
+        grid-template-columns: 1fr 1fr;
+        .icon {
+            grid-area: 2 / 2 / span 3 / 2;
+            margin: auto;
+            margin-right: $spacing-02;
+        }
+        .pokemonImage {
+            grid-column: 1 / span 2;
+        }
+    }
+    .listContent {
+        grid-template-columns: auto 1fr 1fr;
+        column-gap: $spacing-05;
+        .icon {
+            margin: auto;
+            margin-right: $spacing-02;
+            grid-row: 1 / 3;
+            grid-column: 3;
+        }
+        .pokemonImage {
+            grid-row: 1 / span 2;
+            width: 100px;
+            height: 100px;
+            margin-left: 0;
+        }
+        h3 {
+            margin-top: auto;
         }
     }
 }
@@ -46,14 +80,17 @@
     object-fit: contain;
     transition: all 0.2s;
     margin: auto;
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     cursor: pointer;
     transition: all 0.2s;
     &:hover {
         transform: scale(1.05);
         transform-origin: bottom;
     }
+}
+.activeIcon {
+    background-color: lightgray;
 }
 
 @keyframes liked {
