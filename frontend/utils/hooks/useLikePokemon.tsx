@@ -28,52 +28,15 @@ const useLikePokemon = ({
   const [likePokemon] = useFavoritePokemonMutation({
     variables: { pokemonId },
     onError,
-    onCompleted: (data) => {
-      // gets favorite pokemon and adds favorite to cache
-      const pokemonName = data.favoritePokemon?.name;
-      const pokemon = client
-        .readQuery({ query: GetPokemonsDocument, variables: { query: {} } })
-        .pokemons.edges.find(
-          (cachedPokemon: any) => cachedPokemon.name === pokemonName
-        );
-      client.cache.updateQuery(
-        {
-          query: GetPokemonsDocument,
-          variables: { query: { filter: { isFavorite: true } } },
-        },
-
-        (data: GetPokemonsQuery | null) => {
-          if (!data || !pokemon) return data;
-          console.log(data.pokemons.edges);
-          const newData = _.cloneDeep(data);
-          newData.pokemons.edges.push({ ...pokemon, isFavorite: true });
-          return newData;
-        }
-      );
+    onCompleted: () => {
+      client.refetchQueries({ include: [GetPokemonsDocument] });
     },
   });
   const [unLikePokemon] = useUnFavoritePokemonMutation({
     variables: { pokemonId },
     onError,
-    onCompleted: (data) => {
-      const pokemon = data.unFavoritePokemon;
-      // updates cache in filtered
-      client.cache.updateQuery(
-        {
-          query: GetPokemonsDocument,
-          variables: { query: { filter: { isFavorite: true } } },
-        },
-
-        (data: GetPokemonsQuery | null) => {
-          if (!data) return data;
-          const newData = _.cloneDeep(data);
-          newData.pokemons.edges = data.pokemons.edges.filter(
-            (cachedPokemon) => cachedPokemon.name !== pokemon?.name
-          );
-          console.log(newData);
-          return newData;
-        }
-      );
+    onCompleted: () => {
+      client.refetchQueries({ include: [GetPokemonsDocument] });
     },
   });
 
