@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       </Head>
       {Filters}
 
-      {data?.pokemons.edges && <PokemonList pokemons={data.pokemons.edges} />}
+      <PokemonList pokemons={data?.pokemons.edges} loading={loading}/>
     </div>
   );
 };

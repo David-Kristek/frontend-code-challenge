@@ -18,15 +18,18 @@ export enum LayoutType {
 
 export const PokemonListLayoutAtom = atomWithStorage<LayoutType>(
   "pokemonLayoutType",
-  LayoutType.LIST
+  LayoutType.GRID
 );
 
-const PokemonList: React.FC<{
-  pokemons: GetPokemonsQuery["pokemons"]["edges"];
-}> = ({ pokemons }) => {
+interface PokemonListProps {
+  pokemons?: GetPokemonsQuery["pokemons"]["edges"];
+  loading: boolean;
+}
+
+const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
   const [layoutType] = useAtom(PokemonListLayoutAtom);
   const collumnWidth =
-    layoutType === LayoutType.GRID
+    layoutType == LayoutType.GRID
       ? {
           xlg: { span: 3 },
           lg: { span: 4 },
@@ -39,6 +42,23 @@ const PokemonList: React.FC<{
           md: { span: 8 },
           sm: { span: 4 },
         };
+  if (loading) {
+    return (
+      <Grid>
+        {[...Array(12)].map((_, index) => (
+          <Column
+            as="article"
+            className={styles.card}
+            {...collumnWidth}
+            key={index}
+          >
+            <PokemonCard layoutType={layoutType} loading={true} />
+          </Column>
+        ))}
+      </Grid>
+    );
+  }
+  if (!pokemons) return null;
   return (
     <Grid>
       {pokemons.map((pokemon) => (
@@ -48,7 +68,11 @@ const PokemonList: React.FC<{
           {...collumnWidth}
           key={pokemon.id}
         >
-          <PokemonCard {...pokemon} layoutType={layoutType}/>
+          <PokemonCard
+            pokemon={pokemon}
+            layoutType={layoutType}
+            loading={loading}
+          />
         </Column>
       ))}
     </Grid>

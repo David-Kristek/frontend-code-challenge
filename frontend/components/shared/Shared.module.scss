@@ -22,7 +22,7 @@
     }
     .icon {
         padding: $spacing-02;
-        transition: .2s;
+        transition: 0.2s;
         border-radius: $spacing-02;
     }
 }
@@ -42,6 +42,14 @@
         }
         .animate {
             animation: liked 0.5s ease;
+        }
+        .headingSkeleton {
+            height: $spacing-06;
+            margin-top: $spacing-05;
+        }
+        .paragraphSkeleton {
+            margin-bottom: 0;
+            height: $spacing-04;
         }
     }
     .gridContent {

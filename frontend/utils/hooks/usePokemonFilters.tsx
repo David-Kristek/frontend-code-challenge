@@ -23,6 +23,12 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
     setSearchValue(e.target.value);
   const setGridLayout = () => setLayoutType(LayoutType.GRID);
   const setListLayout = () => setLayoutType(LayoutType.LIST);
+  const activeIconClass = (layout: LayoutType) => {
+    const iconClass = layoutType == layout ? styles.activeIcon : "";
+    // BUG: when reload icon class is (problem with layoutType maybe jotai)
+    // console.log(layout, layoutType, "activeicon", iconClass);
+    return iconClass;
+  };
   return {
     queryParams: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },
@@ -64,15 +70,11 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
           className={styles.iconBox}
         >
           <Thumbnail_2
-            className={`${styles.icon} ${
-              layoutType === LayoutType.GRID ? styles.activeIcon : ""
-            }`}
+            className={`${styles.icon} ${activeIconClass(LayoutType.GRID)}`}
             onClick={setGridLayout}
           />
           <Table
-            className={`${styles.icon} ${
-              layoutType === LayoutType.LIST ? styles.activeIcon : ""
-            }`}
+            className={`${styles.icon} ${activeIconClass(LayoutType.LIST)}`}
             onClick={setListLayout}
           />
         </Column>
