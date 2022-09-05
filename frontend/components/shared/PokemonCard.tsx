@@ -27,6 +27,7 @@ interface CardProps {
 const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
   const getLayoutClass = () =>
     layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent;
+  
 
   if (loading)
     return (

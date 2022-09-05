@@ -16,7 +16,7 @@ const useLikePokemon = ({
   isFavoriteFromServer,
 }: LikePokemonProps) => {
   const [isFavorite, setIsFavorite] = useState(isFavoriteFromServer);
-
+  const [test, setTest] = useState(isFavoriteFromServer);
   const onError = (error: any) => {
     console.log(error);
     setIsFavorite((curr) => !curr);
@@ -44,14 +44,20 @@ const useLikePokemon = ({
       likePokemon();
       //   optimistic update
       setIsFavorite(true);
-      return;
+      return "Pokemon liked";
     }
     unLikePokemon();
     setIsFavorite(false);
   };
 
   const endAnimation = () => setAnimate(false);
-  return { isFavorite, toggleFavorite, animate, endAnimation };
+  return {
+    isFavorite,
+    toggleFavorite,
+    animate,
+    endAnimation,
+    isFavoriteFromServer: test,
+  };
 };
 
 export default useLikePokemon;
