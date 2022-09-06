@@ -10,7 +10,7 @@ import styles from "./Shared.module.scss";
 import Link from "next/link";
 import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
-import { LayoutType } from "./PokemonList";
+import { LayoutType } from "../../utils/context/LayoutContext";
 
 interface CardProps {
   pokemon?: {
@@ -25,13 +25,11 @@ interface CardProps {
 }
 
 const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
-  const getLayoutClass = () =>
+  const layoutClass =
     layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent;
-  
-
   if (loading)
     return (
-      <div className={`${styles.content} ${getLayoutClass()}`}>
+      <div className={`${styles.content} ${layoutClass}`}>
         <SkeletonPlaceholder className={styles.pokemonImage} />
         <SkeletonIcon className={styles.icon} />
         <SkeletonText className={styles.headingSkeleton} />

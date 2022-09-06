@@ -10,8 +10,9 @@ const Home: NextPage = () => {
   const { Filters, queryParams } = usePokemonFilters({});
   const { data, loading, previousData } = useGetPokemonsQuery({
     variables: { query: queryParams },
+    fetchPolicy: "cache-first",
   });
-  const definedData = useDataWithoutLosing(data, previousData);
+  const { definedData, firstLoading } = useDataWithoutLosing(data, previousData);
   // if (loading) return <Loading />;
   // if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
 
@@ -22,10 +23,7 @@ const Home: NextPage = () => {
       </Head>
       {Filters}
 
-      <PokemonList
-        pokemons={definedData?.pokemons.edges}
-        loading={loading}
-      />
+      <PokemonList pokemons={definedData?.pokemons.edges} loading={firstLoading} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 const useDataWithoutLosing = <T extends unknown>(data: T, previousData: T) => {
   const [definedData, setdefinedData] = useState(data);
-
+  const [firstLoading, setFirstLoading] = useState(false);
   useEffect(() => {
     if (!data && previousData) {
       setdefinedData(previousData);
@@ -10,9 +10,14 @@ const useDataWithoutLosing = <T extends unknown>(data: T, previousData: T) => {
     if (data) {
       setdefinedData(data);
     }
-  }, [data]);
+    if (previousData || data) {
+      setFirstLoading(false);
+      return;
+    }
+    setFirstLoading(true);
+  }, [data, previousData]);
 
-  return definedData;
+  return { definedData, firstLoading };
 };
 
 export default useDataWithoutLosing;

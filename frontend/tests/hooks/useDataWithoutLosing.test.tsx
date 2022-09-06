@@ -3,7 +3,10 @@ import useDataWithoutLosing from "../../utils/hooks/useDataWithoutLosing";
 
 const testData = { name: "Dave" };
 type Data = { name: string } | undefined;
-let result: RenderResult<Data>;
+let result: RenderResult<{
+  definedData: Data;
+  firstLoading: boolean;
+}>;
 type hookProps = {
   data: Data;
   oldData: Data;
@@ -20,18 +23,32 @@ beforeEach(() => {
 });
 
 test("should receive data", () => {
-  expect(result.current).toBe(testData);
+  expect(result.current.definedData).toBe(testData);
 });
 test("should add new data", () => {
-  rerender({ data: { name: "John" }, oldData: { name: "Josh" } });
-  expect(result.current?.name).toBe("John");
+  rerender({
+    data: { name: "John" },
+    oldData: { name: "Josh" },
+  });
+  expect(result.current.definedData?.name).toBe("John");
 });
 test("should replace with old data", () => {
   rerender({ data: undefined, oldData: { name: "Josh" } });
-  expect(result.current?.name).toBe("Josh");
+  expect(result.current.definedData?.name).toBe("Josh");
 });
 test("should replace with new data", () => {
   rerender({ data: undefined, oldData: { name: "Josh" } });
-  rerender({ data: { name: "James" }, oldData: { name: "Josh" } });
-  expect(result.current?.name).toBe("James");
+  rerender({
+    data: { name: "James" },
+    oldData: { name: "Josh" },
+  });
+  expect(result.current.definedData?.name).toBe("James");
+});
+test("should test loading", () => {
+  rerender({ data: undefined, oldData: undefined });
+  expect(result.current.firstLoading).toBe(true);
+  rerender({ data: undefined, oldData: { name: "John" } });
+  expect(result.current.firstLoading).toBe(false);
+  rerender({ data: { name: "John" }, oldData: undefined });
+  expect(result.current.firstLoading).toBe(false);
 });

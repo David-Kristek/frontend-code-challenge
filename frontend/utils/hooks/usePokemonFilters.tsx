@@ -4,11 +4,7 @@ import styles from "../../components/shared/Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 import PokemonTypesDropdown from "../../components/shared/PokemonTypesDropdown";
 import useDebounceValue from "./useDebounceValue";
-import {
-  LayoutType,
-  PokemonListLayoutAtom,
-} from "../../components/shared/PokemonList";
-import { useAtom } from "jotai";
+import useLayoutContext, { LayoutType } from "../context/LayoutContext";
 
 interface usePokemonFiltersProps {
   filterFavorite?: boolean;
@@ -17,16 +13,12 @@ interface usePokemonFiltersProps {
 const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   const [selectedType, setSelectedType] = useState("");
   const [searchValue, setSearchValue] = useState("");
-  const [layoutType, setLayoutType] = useAtom(PokemonListLayoutAtom);
   const debouncedSearch = useDebounceValue(searchValue, 400);
+  const { layoutType, setGridLayout, setListLayout } = useLayoutContext();
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchValue(e.target.value);
-  const setGridLayout = () => setLayoutType(LayoutType.GRID);
-  const setListLayout = () => setLayoutType(LayoutType.LIST);
   const activeIconClass = (layout: LayoutType) => {
     const iconClass = layoutType == layout ? styles.activeIcon : "";
-    // BUG: when reload icon class is (problem with layoutType maybe jotai)
-    // console.log(layout, layoutType, "activeicon", iconClass);
     return iconClass;
   };
   return {

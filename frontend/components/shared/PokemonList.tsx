@@ -8,18 +8,9 @@ import {
 import Image from "next/image";
 import PokemonCard from "../shared/PokemonCard";
 import styles from "./Shared.module.scss";
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-
-export enum LayoutType {
-  GRID = "grid",
-  LIST = "list",
-}
-
-export const PokemonListLayoutAtom = atomWithStorage<LayoutType>(
-  "pokemonLayoutType",
-  LayoutType.GRID
-);
+import useLayoutContext, {
+  LayoutType,
+} from "../../utils/context/LayoutContext";
 
 interface PokemonListProps {
   pokemons?: GetPokemonsQuery["pokemons"]["edges"];
@@ -27,7 +18,7 @@ interface PokemonListProps {
 }
 
 const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
-  const [layoutType] = useAtom(PokemonListLayoutAtom);
+  const { layoutType } = useLayoutContext();
   const collumnWidth =
     layoutType == LayoutType.GRID
       ? {
