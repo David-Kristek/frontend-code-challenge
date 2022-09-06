@@ -7,12 +7,15 @@ import usePokemonFilters from "../utils/hooks/usePokemonFilters";
 import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
 
 const Home: NextPage = () => {
-  const { Filters, queryParams } = usePokemonFilters({});
+  const { Filters, queryParams, loadingComplete } = usePokemonFilters({});
   const { data, loading, previousData } = useGetPokemonsQuery({
     variables: { query: queryParams },
-    fetchPolicy: "cache-first",
+    onCompleted: loadingComplete,
   });
-  const { definedData, firstLoading } = useDataWithoutLosing(data, previousData);
+  const { definedData, firstLoading } = useDataWithoutLosing(
+    data,
+    previousData
+  );
   // if (loading) return <Loading />;
   // if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
 
@@ -23,7 +26,10 @@ const Home: NextPage = () => {
       </Head>
       {Filters}
 
-      <PokemonList pokemons={definedData?.pokemons.edges} loading={firstLoading} />
+      <PokemonList
+        pokemons={definedData?.pokemons.edges}
+        loading={firstLoading}
+      />
     </div>
   );
 };

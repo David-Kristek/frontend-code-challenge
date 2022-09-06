@@ -9,15 +9,21 @@ import PokemonList from "../components/shared/PokemonList";
 import usePokemonFilters from "../utils/hooks/usePokemonFilters";
 import client from "../utils/apollo-client";
 import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
+import { useState } from "react";
 
 const Home: NextPage = () => {
-  const { Filters, queryParams } = usePokemonFilters({ filterFavorite: true });
-  const { data, loading, previousData } = useGetPokemonsQuery({
-    variables: { query: queryParams },
-    
+  const { Filters, queryParams, loadingComplete } = usePokemonFilters({
+    filterFavorite: true,
   });
-  const {definedData, firstLoading} = useDataWithoutLosing(data, previousData); 
-  
+  const { data, previousData } = useGetPokemonsQuery({
+    variables: { query: queryParams },
+    onCompleted: loadingComplete,
+  });
+  const { definedData, firstLoading } = useDataWithoutLosing(
+    data,
+    previousData
+  );
+
   // if (loading) return <Loading />;
   // if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
   return (
@@ -27,7 +33,10 @@ const Home: NextPage = () => {
       </Head>
       {Filters}
 
-      <PokemonList pokemons={definedData?.pokemons.edges} loading={firstLoading} />
+      <PokemonList
+        pokemons={definedData?.pokemons.edges}
+        loading={firstLoading}
+      />
     </div>
   );
 };

@@ -1,34 +1,47 @@
 import React, { useState } from "react";
-import { Column, Grid, Search } from "carbon-components-react";
+import { Column, Grid, InlineLoading, Search } from "carbon-components-react";
 import styles from "../../components/shared/Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 import PokemonTypesDropdown from "../../components/shared/PokemonTypesDropdown";
 import useDebounceValue from "./useDebounceValue";
 import useLayoutContext, { LayoutType } from "../context/LayoutContext";
+import FullRow from "../../components/layouts/FullRow";
 
 interface usePokemonFiltersProps {
   filterFavorite?: boolean;
 }
 
 const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
+  const [loadingFilters, setLoadingFilters] = useState(false);
   const [selectedType, setSelectedType] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounceValue(searchValue, 400);
   const { layoutType, setGridLayout, setListLayout } = useLayoutContext();
-  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+    startLoading();
+  };
   const activeIconClass = (layout: LayoutType) => {
     const iconClass = layoutType == layout ? styles.activeIcon : "";
     return iconClass;
+  };
+  const loadingComplete = () => {
+    setLoadingFilters(false);
+
+  };
+  const startLoading = () => {
+    setLoadingFilters(true);
   };
   return {
     queryParams: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },
       search: debouncedSearch,
     },
+    loadingComplete,
 
     Filters: (
-      <Grid style={{ margin: "2rem 0" }}>
+      <Grid style={{ margin: "2rem 0", position: "relative" }}>
         <Column
           xlg={{ span: 7 }}
           lg={{ span: 6 }}
@@ -53,6 +66,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
           <PokemonTypesDropdown
             setSelected={setSelectedType}
             selected={selectedType}
+            setLoading={startLoading}
           />
         </Column>
         <Column
@@ -70,6 +84,16 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
             onClick={setListLayout}
           />
         </Column>
+        <FullRow>
+          <Column>
+            {loadingFilters && (searchValue || selectedType) && (
+              <InlineLoading
+                style={{ position: "absolute", marginLeft: "auto" }}
+                description="Loading filters"
+              />
+            )}
+          </Column>
+        </FullRow>
       </Grid>
     ),
   };
