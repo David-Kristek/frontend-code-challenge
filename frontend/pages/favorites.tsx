@@ -18,6 +18,7 @@ const Home: NextPage = () => {
   const { data, previousData } = useGetPokemonsQuery({
     variables: { query: queryParams },
     onCompleted: loadingComplete,
+    onError: loadingComplete
   });
   const { definedData, firstLoading } = useDataWithoutLosing(
     data,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Column, Grid, InlineLoading, Search } from "carbon-components-react";
 import styles from "../../components/shared/Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
@@ -17,22 +17,24 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounceValue(searchValue, 400);
   const { layoutType, setGridLayout, setListLayout } = useLayoutContext();
-  
+
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     startLoading();
   };
   const activeIconClass = (layout: LayoutType) => {
-    const iconClass = layoutType == layout ? styles.activeIcon : "";
+    const iconClass =
+      (layoutType ?? LayoutType.GRID) == layout ? styles.activeIcon : "";
     return iconClass;
   };
   const loadingComplete = () => {
-    setLoadingFilters(false);
-
+    setTimeout(() => setLoadingFilters(false));
   };
   const startLoading = () => {
     setLoadingFilters(true);
   };
+  useEffect(() => {
+  }, [loadingFilters])
   return {
     queryParams: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },
@@ -78,18 +80,21 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
           <Thumbnail_2
             className={`${styles.icon} ${activeIconClass(LayoutType.GRID)}`}
             onClick={setGridLayout}
+            data-testid="gridButton"
           />
           <Table
             className={`${styles.icon} ${activeIconClass(LayoutType.LIST)}`}
             onClick={setListLayout}
+            data-testid="listButton"
           />
         </Column>
         <FullRow>
           <Column>
-            {loadingFilters && (searchValue || selectedType) && (
+            {loadingFilters && (
               <InlineLoading
                 style={{ position: "absolute", marginLeft: "auto" }}
                 description="Loading filters"
+                data-testid="filterLoading"
               />
             )}
           </Column>

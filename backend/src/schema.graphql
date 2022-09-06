@@ -33,7 +33,7 @@ type PokemonConnection {
 }
 
 input PokemonsQueryInput {
-    limit: Int = 10
+    limit: Int = 16
     offset: Int = 0
     search: String
     filter: PokemonFilterInput

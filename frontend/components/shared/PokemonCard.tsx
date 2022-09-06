@@ -26,10 +26,10 @@ interface CardProps {
 
 const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
   const layoutClass =
-    layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent;
+    (layoutType ?? LayoutType.GRID) === LayoutType.GRID ? styles.gridContent : styles.listContent;
   if (loading)
     return (
-      <div className={`${styles.content} ${layoutClass}`}>
+      <div className={`${styles.content} ${layoutClass}`} data-testid={`skeletonLoading${layoutType}`}>
         <SkeletonPlaceholder className={styles.pokemonImage} />
         <SkeletonIcon className={styles.icon} />
         <SkeletonText className={styles.headingSkeleton} />
@@ -50,43 +50,40 @@ const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
     isFavoriteFromServer,
   });
   return (
-    <>
-      <div
-        className={`${styles.content} ${
-          layoutType === LayoutType.GRID
-            ? styles.gridContent
-            : styles.listContent
-        }`}
-      >
-        <Link href={name}>
-          <img src={image} alt={name} className={styles.pokemonImage} />
-        </Link>
-        <h3>{name} </h3>
-        {isFavorite ? (
-          <FavoriteFilled
-            className={`${styles.icon} ${animate ? styles.animate : ""}`}
-            onClick={toggleFavorite}
-            onAnimationEnd={endAnimation}
-          />
-        ) : (
-          <Favorite className={styles.icon} onClick={toggleFavorite} />
-        )}
+    <div
+      className={`${styles.content} ${
+        layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent
+      }`}
+      data-testid="card"
+    >
+      <Link href={name}>
+        <img src={image} alt={name} className={styles.pokemonImage} />
+      </Link>
+      <h3>{name} </h3>
+      {isFavorite ? (
+        <FavoriteFilled
+          className={`${styles.icon} ${animate ? styles.animate : ""}`}
+          onClick={toggleFavorite}
+          onAnimationEnd={endAnimation}
+        />
+      ) : (
+        <Favorite className={styles.icon} onClick={toggleFavorite} />
+      )}
 
-        <p>
-          {types.map((type, index) => {
-            const isLast = types.length === index + 1;
-            const isFirst = index === 0;
-            return (
-              <React.Fragment key={index}>
-                {/* lowercase first letter*/}
-                {isFirst ? type : type[0].toLowerCase() + type.slice(1)}
-                {!isLast && ", "}
-              </React.Fragment>
-            );
-          })}
-        </p>
-      </div>
-    </>
+      <p>
+        {types.map((type, index) => {
+          const isLast = types.length === index + 1;
+          const isFirst = index === 0;
+          return (
+            <React.Fragment key={index}>
+              {/* lowercase first letter*/}
+              {isFirst ? type : type[0].toLowerCase() + type.slice(1)}
+              {!isLast && ", "}
+            </React.Fragment>
+          );
+        })}
+      </p>
+    </div>
   );
 };
 

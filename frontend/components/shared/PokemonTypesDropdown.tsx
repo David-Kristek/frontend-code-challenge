@@ -33,6 +33,7 @@ const PokemonTypesDropdown: React.FC<PokemonTypesDropdownProps> = ({
       label="Type"
       className={styles.gridItem}
       onChange={onDropdownChange}
+      data-testid="pokemonTypeSelect"
     />
   );
 };

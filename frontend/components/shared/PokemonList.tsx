@@ -20,7 +20,7 @@ interface PokemonListProps {
 const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
   const { layoutType } = useLayoutContext();
   const collumnWidth =
-    layoutType == LayoutType.GRID
+    (layoutType ?? LayoutType.GRID) == LayoutType.GRID
       ? {
           xlg: { span: 3 },
           lg: { span: 4 },
@@ -49,9 +49,9 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
       </Grid>
     );
   }
-  if (!pokemons) return null;
+  if (!pokemons) return null;  
   return (
-    <Grid>
+    <Grid data-testid={`layout${layoutType}`}>
       {pokemons.map((pokemon) => (
         <Column
           as="article"

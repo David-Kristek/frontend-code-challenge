@@ -6,7 +6,7 @@ import {
   FavoritePokemonDocument,
   UnFavoritePokemonDocument,
 } from "../../utils/graphql/generated/schema";
-
+import { expect } from "@jest/globals";
 let favoritePokemonMutationCalled = false;
 let result: RenderResult<{
   isFavorite: boolean;

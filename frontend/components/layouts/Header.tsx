@@ -35,7 +35,6 @@ const Header: React.FC = () => {
             }}
             size="lg"
             className={styles.gridItem}
-            light={true}
             selectedIndex={active}
           >
             <Switch name="one" text="All" />
