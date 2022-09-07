@@ -10,7 +10,6 @@ interface LikePokemonProps {
   pokemonId: string;
   isFavoriteFromServer: boolean;
 }
-import _ from "loadsh";
 const useLikePokemon = ({
   pokemonId,
   isFavoriteFromServer,
@@ -26,14 +25,15 @@ const useLikePokemon = ({
     variables: { pokemonId },
     onError,
     onCompleted: () => {
-      client.refetchQueries({ include: [GetPokemonsDocument] });
+      // not working with infinite scroll
+      // client.refetchQueries({ include: [GetPokemonsDocument] });
     },
   });
   const [unLikePokemon] = useUnFavoritePokemonMutation({
     variables: { pokemonId },
     onError,
     onCompleted: () => {
-      client.refetchQueries({ include: [GetPokemonsDocument] });
+      // client.refetchQueries({ include: [GetPokemonsDocument] });
     },
   });
 

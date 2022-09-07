@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
 import { LayoutType } from "../../utils/context/LayoutContext";
+import { useRouter } from "next/router";
 
 interface CardProps {
   pokemon?: {
@@ -22,14 +23,38 @@ interface CardProps {
   };
   layoutType?: LayoutType;
   loading?: boolean;
+  collumnWidth?: {
+    xlg: {
+      span: number;
+    };
+    lg: {
+      span: number;
+    };
+    md: {
+      span: number;
+    };
+    sm: {
+      span: number;
+    };
+  };
 }
 
-const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
+const PokemonCard: React.FC<CardProps> = ({
+  pokemon,
+  layoutType,
+  loading,
+  collumnWidth,
+}) => {
   const layoutClass =
-    (layoutType ?? LayoutType.GRID) === LayoutType.GRID ? styles.gridContent : styles.listContent;
+    layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent;
+  const router = useRouter();
+
   if (loading)
     return (
-      <div className={`${styles.content} ${layoutClass}`} data-testid={`skeletonLoading${layoutType}`}>
+      <div
+        className={`${styles.content} ${layoutClass}`}
+        data-testid={`skeletonLoading${layoutType}`}
+      >
         <SkeletonPlaceholder className={styles.pokemonImage} />
         <SkeletonIcon className={styles.icon} />
         <SkeletonText className={styles.headingSkeleton} />
@@ -49,41 +74,46 @@ const PokemonCard: React.FC<CardProps> = ({ pokemon, layoutType, loading }) => {
     pokemonId,
     isFavoriteFromServer,
   });
+  if (!isFavorite && router.pathname === "/favorites") return null;
   return (
-    <div
-      className={`${styles.content} ${
-        layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent
-      }`}
-      data-testid="card"
-    >
-      <Link href={name}>
-        <img src={image} alt={name} className={styles.pokemonImage} />
-      </Link>
-      <h3>{name} </h3>
-      {isFavorite ? (
-        <FavoriteFilled
-          className={`${styles.icon} ${animate ? styles.animate : ""}`}
-          onClick={toggleFavorite}
-          onAnimationEnd={endAnimation}
-        />
-      ) : (
-        <Favorite className={styles.icon} onClick={toggleFavorite} />
-      )}
+    <Column as="article" className={styles.card} {...collumnWidth}>
+      <div
+        className={`${styles.content} ${
+          layoutType === LayoutType.GRID
+            ? styles.gridContent
+            : styles.listContent
+        }`}
+        data-testid="card"
+      >
+        <Link href={name}>
+          <img src={image} alt={name} className={styles.pokemonImage} />
+        </Link>
+        <h3>{name} </h3>
+        {isFavorite ? (
+          <FavoriteFilled
+            className={`${styles.icon} ${animate ? styles.animate : ""}`}
+            onClick={toggleFavorite}
+            onAnimationEnd={endAnimation}
+          />
+        ) : (
+          <Favorite className={styles.icon} onClick={toggleFavorite} />
+        )}
 
-      <p>
-        {types.map((type, index) => {
-          const isLast = types.length === index + 1;
-          const isFirst = index === 0;
-          return (
-            <React.Fragment key={index}>
-              {/* lowercase first letter*/}
-              {isFirst ? type : type[0].toLowerCase() + type.slice(1)}
-              {!isLast && ", "}
-            </React.Fragment>
-          );
-        })}
-      </p>
-    </div>
+        <p>
+          {types.map((type, index) => {
+            const isLast = types.length === index + 1;
+            const isFirst = index === 0;
+            return (
+              <React.Fragment key={index}>
+                {/* lowercase first letter*/}
+                {isFirst ? type : type[0].toLowerCase() + type.slice(1)}
+                {!isLast && ", "}
+              </React.Fragment>
+            );
+          })}
+        </p>
+      </div>
+    </Column>
   );
 };
 

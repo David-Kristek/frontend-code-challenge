@@ -23,7 +23,7 @@ interface ProviderProps {
 }
 
 export const LayoutContextProvider = ({ children }: ProviderProps) => {
-  const [layout, setLayout] = useStateWithStorage<LayoutType>("layouttype");
+  const [layout, setLayout] = useStateWithStorage<LayoutType>("layouttype", LayoutType.GRID);
   const setGridLayout = () => {
     setLayout(LayoutType.GRID);
   };

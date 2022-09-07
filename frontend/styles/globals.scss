@@ -4,5 +4,8 @@
 //     background-color: green;
 //   }
 html {
-    overflow-y: scroll;
-  }
+  overflow-y: scroll;
+}
+.infinite-scroll-component {
+  overflow: visible !important;
+}

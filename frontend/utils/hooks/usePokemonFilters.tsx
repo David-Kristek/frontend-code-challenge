@@ -23,8 +23,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
     startLoading();
   };
   const activeIconClass = (layout: LayoutType) => {
-    const iconClass =
-      (layoutType ?? LayoutType.GRID) == layout ? styles.activeIcon : "";
+    const iconClass = layoutType == layout ? styles.activeIcon : "";
     return iconClass;
   };
   const loadingComplete = () => {
@@ -33,8 +32,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   const startLoading = () => {
     setLoadingFilters(true);
   };
-  useEffect(() => {
-  }, [loadingFilters])
+  useEffect(() => {}, [loadingFilters]);
   return {
     queryParams: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },

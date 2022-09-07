@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useRef, useState } from "react";
 
 const useStateWithStorage = <S extends unknown>(
   key: string,
@@ -6,11 +6,13 @@ const useStateWithStorage = <S extends unknown>(
 ): [S, React.Dispatch<React.SetStateAction<S>>] => {
   const [state, setState] = useState<S>(initialState as S);
   useDebugValue(state);
-
+  const firstRender = useRef(true); 
   useEffect(() => {
     const item = localStorage.getItem(key);
-    if (item && item !== "undefined") {
+    if (item && item !== "undefined" && firstRender.current) {
       setState(parse(item));
+      firstRender.current = false; 
+      console.log("setting as", item);
     }
   }, []);
 

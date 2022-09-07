@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { ClickableTile, Column, Grid } from "carbon-components-react";
+import { Column, Grid } from "carbon-components-react";
 import {
   GetPokemonsQuery,
   Pokemon,
@@ -20,7 +19,7 @@ interface PokemonListProps {
 const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
   const { layoutType } = useLayoutContext();
   const collumnWidth =
-    (layoutType ?? LayoutType.GRID) == LayoutType.GRID
+    layoutType == LayoutType.GRID
       ? {
           xlg: { span: 3 },
           lg: { span: 4 },
@@ -49,22 +48,17 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
       </Grid>
     );
   }
-  if (!pokemons) return null;  
+  if (!pokemons) return null;
   return (
     <Grid data-testid={`layout${layoutType}`}>
       {pokemons.map((pokemon) => (
-        <Column
-          as="article"
-          className={styles.card}
-          {...collumnWidth}
+        <PokemonCard
+          pokemon={pokemon}
+          layoutType={layoutType}
+          loading={loading}
           key={pokemon.id}
-        >
-          <PokemonCard
-            pokemon={pokemon}
-            layoutType={layoutType}
-            loading={loading}
-          />
-        </Column>
+          collumnWidth={collumnWidth}
+        />
       ))}
     </Grid>
   );

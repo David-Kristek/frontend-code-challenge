@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Loading } from "carbon-components-react";
 import {
   GetPokemonsDocument,
   useGetPokemonsQuery,
@@ -10,34 +9,42 @@ import usePokemonFilters from "../utils/hooks/usePokemonFilters";
 import client from "../utils/apollo-client";
 import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
 import { useState } from "react";
+import usePokemonInfiniteScroll from "../utils/hooks/usePokemonInfiniteScroll";
 
 const Home: NextPage = () => {
   const { Filters, queryParams, loadingComplete } = usePokemonFilters({
     filterFavorite: true,
   });
-  const { data, previousData } = useGetPokemonsQuery({
+  const { data, previousData, fetchMore } = useGetPokemonsQuery({
     variables: { query: queryParams },
     onCompleted: loadingComplete,
-    onError: loadingComplete
+    onError: loadingComplete,
+    fetchPolicy: "cache-and-network",
   });
   const { definedData, firstLoading } = useDataWithoutLosing(
     data,
     previousData
   );
-
-  // if (loading) return <Loading />;
-  // if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
+  const { InfiniteScroll } = usePokemonInfiniteScroll({
+    limit: 16,
+    fetchMore,
+    data,
+    queryParams,
+  });
   return (
     <div>
       <Head>
         <title>Pokedex</title>
       </Head>
       {Filters}
-
-      <PokemonList
-        pokemons={definedData?.pokemons.edges}
-        loading={firstLoading}
-      />
+      <div>
+        <InfiniteScroll>
+          <PokemonList
+            pokemons={definedData?.pokemons.edges}
+            loading={firstLoading}
+          />
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

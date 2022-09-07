@@ -1,36 +1,44 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Loading } from "carbon-components-react";
+
 import { useGetPokemonsQuery } from "../utils/graphql/generated/schema";
 import PokemonList from "../components/shared/PokemonList";
 import usePokemonFilters from "../utils/hooks/usePokemonFilters";
 import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
 
+import _ from "loadsh";
+import { useEffect, useState } from "react";
+import usePokemonInfiniteScroll from "../utils/hooks/usePokemonInfiniteScroll";
 const Home: NextPage = () => {
   const { Filters, queryParams, loadingComplete } = usePokemonFilters({});
-  const { data, loading, previousData } = useGetPokemonsQuery({
-    variables: { query: queryParams },
+  const { data, previousData, fetchMore } = useGetPokemonsQuery({
+    variables: { query: { ...queryParams, offset: 0, limit: 16 } },
     onCompleted: loadingComplete,
-    onError: loadingComplete
+    onError: loadingComplete,
+    fetchPolicy: "cache-and-network",
+  });
+  const { InfiniteScroll } = usePokemonInfiniteScroll({
+    limit: 16,
+    fetchMore,
+    data,
+    queryParams,
   });
   const { definedData, firstLoading } = useDataWithoutLosing(
     data,
     previousData
   );
-  // if (loading) return <Loading />;
-  // if (!data?.pokemons.edges) return <p>No pokemons in pokedex</p>;
-
   return (
     <div>
       <Head>
         <title>Pokedex</title>
       </Head>
       {Filters}
-
-      <PokemonList
-        pokemons={definedData?.pokemons.edges}
-        loading={firstLoading}
-      />
+      <InfiniteScroll>
+        <PokemonList
+          pokemons={definedData?.pokemons.edges}
+          loading={firstLoading}
+        />
+      </InfiniteScroll>
     </div>
   );
 };

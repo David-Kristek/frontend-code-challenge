@@ -8,7 +8,7 @@ describe("pages", () => {
     cy.contains("All").click();
     cy.url().should("not.include", "favorites");
   });
-  it.only("should change layout", () => {
+  it("should change layout", () => {
     cy.get("[data-testid='listButton']").click();
     cy.get("[data-testid='layoutlist']").should("exist");
     cy.reload();
