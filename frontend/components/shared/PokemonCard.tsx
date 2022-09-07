@@ -12,6 +12,8 @@ import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
 import { LayoutType } from "../../utils/context/LayoutContext";
 import { useRouter } from "next/router";
+import client from "../../utils/apollo-client";
+import { GetPokemonByNameDocument } from "../../utils/graphql/generated/schema";
 
 interface CardProps {
   pokemon?: {
@@ -74,9 +76,15 @@ const PokemonCard: React.FC<CardProps> = ({
     pokemonId,
     isFavoriteFromServer,
   });
+  const prefetchPokemon = () => {
+    client.query({
+      query: GetPokemonByNameDocument,
+      variables: { name: pokemon.name },
+    });
+  };
   if (!isFavorite && router.pathname === "/favorites") return null;
   return (
-    <Column as="article" className={styles.card} {...collumnWidth}>
+    <Column as="article" className={styles.card} {...collumnWidth} onMouseOver={prefetchPokemon}>
       <div
         className={`${styles.content} ${
           layoutType === LayoutType.GRID
@@ -85,10 +93,12 @@ const PokemonCard: React.FC<CardProps> = ({
         }`}
         data-testid="card"
       >
-        <Link href={name}>
+        <Link href={name.toLowerCase()}>
           <img src={image} alt={name} className={styles.pokemonImage} />
         </Link>
-        <h3>{name} </h3>
+        <Link href={name.toLowerCase()}>
+          <h3 style={{ cursor: "pointer" }}>{name} </h3>
+        </Link>
         {isFavorite ? (
           <FavoriteFilled
             className={`${styles.icon} ${animate ? styles.animate : ""}`}

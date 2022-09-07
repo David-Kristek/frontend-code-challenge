@@ -815,7 +815,7 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": "10",
+            "defaultValue": "16",
             "isDeprecated": false,
             "deprecationReason": null
           },

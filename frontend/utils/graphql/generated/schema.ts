@@ -146,6 +146,13 @@ export type UnFavoritePokemonMutationVariables = Exact<{
 
 export type UnFavoritePokemonMutation = { __typename?: 'Mutation', unFavoritePokemon?: { __typename?: 'Pokemon', name: string, isFavorite: boolean } | null };
 
+export type GetPokemonByNameQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type GetPokemonByNameQuery = { __typename?: 'Query', pokemonByName?: { __typename?: 'Pokemon', id: string, name: string, maxCP: number, maxHP: number, sound: string, image: string, isFavorite: boolean, height: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, weight: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, evolutions: Array<{ __typename?: 'Pokemon', id: string, name: string, image: string, isFavorite: boolean }> } | null };
+
 export type GetPokemonTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -227,6 +234,61 @@ export function useUnFavoritePokemonMutation(baseOptions?: Apollo.MutationHookOp
 export type UnFavoritePokemonMutationHookResult = ReturnType<typeof useUnFavoritePokemonMutation>;
 export type UnFavoritePokemonMutationResult = Apollo.MutationResult<UnFavoritePokemonMutation>;
 export type UnFavoritePokemonMutationOptions = Apollo.BaseMutationOptions<UnFavoritePokemonMutation, UnFavoritePokemonMutationVariables>;
+export const GetPokemonByNameDocument = gql`
+    query getPokemonByName($name: String!) {
+  pokemonByName(name: $name) {
+    id
+    name
+    maxCP
+    maxHP
+    height {
+      minimum
+      maximum
+    }
+    weight {
+      minimum
+      maximum
+    }
+    sound
+    image
+    isFavorite
+    evolutions {
+      id
+      name
+      image
+      isFavorite
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPokemonByNameQuery__
+ *
+ * To run a query within a React component, call `useGetPokemonByNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPokemonByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPokemonByNameQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetPokemonByNameQuery(baseOptions: Apollo.QueryHookOptions<GetPokemonByNameQuery, GetPokemonByNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPokemonByNameQuery, GetPokemonByNameQueryVariables>(GetPokemonByNameDocument, options);
+      }
+export function useGetPokemonByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPokemonByNameQuery, GetPokemonByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPokemonByNameQuery, GetPokemonByNameQueryVariables>(GetPokemonByNameDocument, options);
+        }
+export type GetPokemonByNameQueryHookResult = ReturnType<typeof useGetPokemonByNameQuery>;
+export type GetPokemonByNameLazyQueryHookResult = ReturnType<typeof useGetPokemonByNameLazyQuery>;
+export type GetPokemonByNameQueryResult = Apollo.QueryResult<GetPokemonByNameQuery, GetPokemonByNameQueryVariables>;
 export const GetPokemonTypesDocument = gql`
     query getPokemonTypes {
   pokemonTypes
