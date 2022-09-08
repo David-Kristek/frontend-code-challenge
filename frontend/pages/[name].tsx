@@ -18,8 +18,6 @@ const MAX_POKEMON_CP = 3904;
 const MAX_POKEMON_HP = 4144;
 
 const PokemonDetail: NextPage = () => {
-  console.log(unstable_ProgressBar);
-
   const {
     query: { name: pokemonName },
   } = useRouter();

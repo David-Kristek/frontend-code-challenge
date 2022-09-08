@@ -43,7 +43,6 @@ const Home: NextPage = () => {
           <PokemonList
             pokemons={definedData?.pokemons.edges}
             loading={firstLoading}
-            queryParams={queryParams}
           />
         </InfiniteScroll>
       </div>

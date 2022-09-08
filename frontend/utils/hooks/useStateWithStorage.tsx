@@ -6,13 +6,12 @@ const useStateWithStorage = <S extends unknown>(
 ): [S, React.Dispatch<React.SetStateAction<S>>] => {
   const [state, setState] = useState<S>(initialState as S);
   useDebugValue(state);
-  const firstRender = useRef(true); 
+  const firstRender = useRef(true);
   useEffect(() => {
     const item = localStorage.getItem(key);
     if (item && item !== "undefined" && firstRender.current) {
       setState(parse(item));
-      firstRender.current = false; 
-      console.log("setting as", item);
+      firstRender.current = false;
     }
   }, []);
 

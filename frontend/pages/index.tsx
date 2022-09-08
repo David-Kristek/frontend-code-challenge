@@ -1,15 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-
 import { useGetPokemonsQuery } from "../utils/graphql/generated/schema";
 import PokemonList from "../components/shared/PokemonList";
 import usePokemonFilters from "../utils/hooks/usePokemonFilters";
 import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
-
-import _ from "loadsh";
-import { useEffect, useState } from "react";
 import usePokemonInfiniteScroll from "../utils/hooks/usePokemonInfiniteScroll";
 import useGlobalContext from "../utils/context/GlobalContext";
+
 const Home: NextPage = () => {
   const { Filters, filterValues, loadingComplete } = usePokemonFilters({});
   const { limit } = useGlobalContext();
@@ -40,7 +37,6 @@ const Home: NextPage = () => {
         <PokemonList
           pokemons={definedData?.pokemons.edges}
           loading={firstLoading}
-          queryParams={queryParams}
         />
       </InfiniteScroll>
     </div>

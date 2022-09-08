@@ -11,12 +11,8 @@ import Link from "next/link";
 import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
 import { LayoutType } from "../../utils/context/GlobalContext";
-import { useRouter } from "next/router";
 import client from "../../utils/apollo-client";
-import {
-  GetPokemonByNameDocument,
-  GetPokemonsQueryVariables,
-} from "../../utils/graphql/generated/schema";
+import { GetPokemonByNameDocument } from "../../utils/graphql/generated/schema";
 import { formatPokemonTypes } from "../../utils/func/formating";
 
 interface CardProps {
@@ -27,7 +23,6 @@ interface CardProps {
     id: string;
     isFavorite: boolean;
   };
-  queryParams?: GetPokemonsQueryVariables;
   layoutType?: LayoutType;
   loading?: boolean;
   collumnWidth?: {

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   GetPokemonsDocument,
   GetPokemonsQuery,
-  GetPokemonsQueryVariables,
   useFavoritePokemonMutation,
   useUnFavoritePokemonMutation,
 } from "../graphql/generated/schema";
@@ -14,7 +13,6 @@ import { useRouter } from "next/router";
 interface LikePokemonProps {
   pokemonId: string;
   isFavoriteFromServer: boolean;
-  queryParams?: GetPokemonsQueryVariables;
 }
 const useLikePokemon = ({
   pokemonId,
@@ -25,7 +23,6 @@ const useLikePokemon = ({
   const isOnFavoritePage = router.pathname === "/favorites";
   const [isFavorite, setIsFavorite] = useState(isFavoriteFromServer || isOnFavoritePage);
   const onError = (error: any) => {
-    console.log(error, "error");
     setIsFavorite((curr) => !curr);
     // TODO: display toast notification
   };
@@ -108,7 +105,6 @@ const useLikePokemon = ({
       //   optimistic update
       setIsFavorite(true);
 
-      console.log("pokemonLiked");
       return "Pokemon liked";
     }
     unLikePokemon();

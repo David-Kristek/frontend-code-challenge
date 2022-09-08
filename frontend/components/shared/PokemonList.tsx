@@ -15,10 +15,9 @@ import useGlobalContext, {
 interface PokemonListProps {
   pokemons?: GetPokemonsQuery["pokemons"]["edges"];
   loading: boolean;
-  queryParams: GetPokemonsQueryVariables;
 }
 
-const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, queryParams }) => {
+const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
   const { layoutType } = useGlobalContext();
   const collumnWidth =
     layoutType == LayoutType.GRID
@@ -60,7 +59,6 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, queryParam
           loading={loading}
           key={index}
           collumnWidth={collumnWidth}
-          queryParams={queryParams}
         />
       ))}
     </Grid>
