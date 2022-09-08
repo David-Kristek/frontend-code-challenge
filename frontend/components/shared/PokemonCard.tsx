@@ -76,11 +76,10 @@ const PokemonCard: React.FC<CardProps> = ({
     id: pokemonId,
     isFavorite: isFavoriteFromServer,
   } = pokemon;
-  const { isFavorite, toggleFavorite, animate, endAnimation } =
-    useLikePokemon({
-      pokemonId,
-      isFavoriteFromServer,
-    });
+  const { isFavorite, toggleFavorite, animate, endAnimation } = useLikePokemon({
+    pokemonId,
+    isFavoriteFromServer,
+  });
   const prefetchPokemon = () => {
     client.query({
       query: GetPokemonByNameDocument,
@@ -93,16 +92,8 @@ const PokemonCard: React.FC<CardProps> = ({
       className={styles.card}
       {...collumnWidth}
       onMouseOver={prefetchPokemon}
-      style={{ position: "relative" }}
     >
-      <div
-        className={`${styles.content} ${
-          layoutType === LayoutType.GRID
-            ? styles.gridContent
-            : styles.listContent
-        }`}
-        data-testid="card"
-      >
+      <div className={`${styles.content} ${layoutClass}`} data-testid="card">
         <Link href={name.toLowerCase()}>
           <img src={image} alt={name} className={styles.pokemonImage} />
         </Link>
