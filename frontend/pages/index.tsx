@@ -9,10 +9,13 @@ import useDataWithoutLosing from "../utils/hooks/useDataWithoutLosing";
 import _ from "loadsh";
 import { useEffect, useState } from "react";
 import usePokemonInfiniteScroll from "../utils/hooks/usePokemonInfiniteScroll";
+import useGlobalContext from "../utils/context/GlobalContext";
 const Home: NextPage = () => {
-  const { Filters, queryParams, loadingComplete } = usePokemonFilters({});
+  const { Filters, filterValues, loadingComplete } = usePokemonFilters({});
+  const { limit } = useGlobalContext();
+  const queryParams = { query: { ...filterValues, offset: 0, limit } };
   const { data, previousData, fetchMore } = useGetPokemonsQuery({
-    variables: { query: { ...queryParams, offset: 0, limit: 16 } },
+    variables: queryParams,
     onCompleted: loadingComplete,
     onError: loadingComplete,
     fetchPolicy: "cache-and-network",
@@ -37,6 +40,7 @@ const Home: NextPage = () => {
         <PokemonList
           pokemons={definedData?.pokemons.edges}
           loading={firstLoading}
+          queryParams={queryParams}
         />
       </InfiniteScroll>
     </div>

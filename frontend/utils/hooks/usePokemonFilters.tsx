@@ -4,7 +4,7 @@ import styles from "../../components/shared/Shared.module.scss";
 import { Thumbnail_2, Table } from "@carbon/icons-react";
 import PokemonTypesDropdown from "../../components/shared/PokemonTypesDropdown";
 import useDebounceValue from "./useDebounceValue";
-import useLayoutContext, { LayoutType } from "../context/LayoutContext";
+import useGlobalContext, { LayoutType } from "../context/GlobalContext";
 import FullRow from "../../components/layouts/FullRow";
 
 interface usePokemonFiltersProps {
@@ -16,7 +16,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   const [selectedType, setSelectedType] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounceValue(searchValue, 400);
-  const { layoutType, setGridLayout, setListLayout } = useLayoutContext();
+  const { layoutType, setGridLayout, setListLayout } = useGlobalContext();
 
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -34,7 +34,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
   };
   useEffect(() => {}, [loadingFilters]);
   return {
-    queryParams: {
+    filterValues: {
       filter: { type: selectedType, isFavorite: !!filterFavorite },
       search: debouncedSearch,
     },

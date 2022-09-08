@@ -10,7 +10,7 @@ import Head from "next/head";
 import ProgressBar from "../components/shared/ProgressBar";
 import FullRow from "../components/layouts/FullRow";
 import PokemonCard from "../components/shared/PokemonCard";
-import { LayoutType } from "../utils/context/LayoutContext";
+import { LayoutType } from "../utils/context/GlobalContext";
 import { VolumeUpFilled } from "@carbon/icons-react";
 import useAudio from "../utils/hooks/useAudio";
 

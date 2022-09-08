@@ -10,10 +10,13 @@ import styles from "./Shared.module.scss";
 import Link from "next/link";
 import { Favorite, FavoriteFilled } from "@carbon/icons-react";
 import useLikePokemon from "../../utils/hooks/useLikePokemon";
-import { LayoutType } from "../../utils/context/LayoutContext";
+import { LayoutType } from "../../utils/context/GlobalContext";
 import { useRouter } from "next/router";
 import client from "../../utils/apollo-client";
-import { GetPokemonByNameDocument } from "../../utils/graphql/generated/schema";
+import {
+  GetPokemonByNameDocument,
+  GetPokemonsQueryVariables,
+} from "../../utils/graphql/generated/schema";
 import { formatPokemonTypes } from "../../utils/func/formating";
 
 interface CardProps {
@@ -24,6 +27,7 @@ interface CardProps {
     id: string;
     isFavorite: boolean;
   };
+  queryParams?: GetPokemonsQueryVariables;
   layoutType?: LayoutType;
   loading?: boolean;
   collumnWidth?: {
@@ -50,7 +54,6 @@ const PokemonCard: React.FC<CardProps> = ({
 }) => {
   const layoutClass =
     layoutType === LayoutType.GRID ? styles.gridContent : styles.listContent;
-  const router = useRouter();
 
   if (loading)
     return (
@@ -73,23 +76,24 @@ const PokemonCard: React.FC<CardProps> = ({
     id: pokemonId,
     isFavorite: isFavoriteFromServer,
   } = pokemon;
-  const { isFavorite, toggleFavorite, animate, endAnimation } = useLikePokemon({
-    pokemonId,
-    isFavoriteFromServer,
-  });
+  const { isFavorite, toggleFavorite, animate, endAnimation } =
+    useLikePokemon({
+      pokemonId,
+      isFavoriteFromServer,
+    });
   const prefetchPokemon = () => {
     client.query({
       query: GetPokemonByNameDocument,
       variables: { name: pokemon.name.toLowerCase() },
     });
   };
-  if (!isFavorite && router.pathname === "/favorites") return null;
   return (
     <Column
       as="article"
       className={styles.card}
       {...collumnWidth}
       onMouseOver={prefetchPokemon}
+      style={{ position: "relative" }}
     >
       <div
         className={`${styles.content} ${

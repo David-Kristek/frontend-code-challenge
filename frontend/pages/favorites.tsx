@@ -12,14 +12,15 @@ import { useState } from "react";
 import usePokemonInfiniteScroll from "../utils/hooks/usePokemonInfiniteScroll";
 
 const Home: NextPage = () => {
-  const { Filters, queryParams, loadingComplete } = usePokemonFilters({
+  const { Filters, filterValues, loadingComplete } = usePokemonFilters({
     filterFavorite: true,
   });
+  const queryParams = { query: { ...filterValues, offset: 0, limit: 16 } };
+
   const { data, previousData, fetchMore } = useGetPokemonsQuery({
-    variables: { query: queryParams },
+    variables: queryParams,
     onCompleted: loadingComplete,
     onError: loadingComplete,
-    fetchPolicy: "cache-and-network",
   });
   const { definedData, firstLoading } = useDataWithoutLosing(
     data,
@@ -42,6 +43,7 @@ const Home: NextPage = () => {
           <PokemonList
             pokemons={definedData?.pokemons.edges}
             loading={firstLoading}
+            queryParams={queryParams}
           />
         </InfiniteScroll>
       </div>
