@@ -8,7 +8,7 @@ import {
   Dropdown,
   DropdownSkeleton,
 } from "carbon-components-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./layouts.module.scss";
 import { green } from "@carbon/colors";
 import FullRow from "./FullRow";
@@ -20,7 +20,10 @@ const NAV_ROUTES = ["/", "/favorites"];
 
 const Header: React.FC = () => {
   const router = useRouter();
-  const [active, setActive] = useState(NAV_ROUTES.indexOf(router.pathname));
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    setActive(NAV_ROUTES.indexOf(router.pathname))
+  }, [router])
   return (
     <Grid as="header">
       <FullRow>

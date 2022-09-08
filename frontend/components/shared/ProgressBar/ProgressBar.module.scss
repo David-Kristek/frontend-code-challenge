@@ -1,0 +1,32 @@
+@use "@carbon/react/scss/spacing" as *;
+
+.box {
+    margin-top: $spacing-02;
+}
+.line {
+    width: 100%;
+    height: $spacing-04;
+    background-color: gainsboro;
+    border-radius: $spacing-02;
+    overflow: hidden;
+}
+.progress {
+    width: 50%;
+    height: $spacing-04;
+    background-color: red;
+    animation: progressAnimation .5s ease-out;
+}
+.row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-04;
+}
+
+@keyframes progressAnimation {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

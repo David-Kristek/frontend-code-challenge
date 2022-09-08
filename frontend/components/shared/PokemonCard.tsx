@@ -14,12 +14,13 @@ import { LayoutType } from "../../utils/context/LayoutContext";
 import { useRouter } from "next/router";
 import client from "../../utils/apollo-client";
 import { GetPokemonByNameDocument } from "../../utils/graphql/generated/schema";
+import { formatPokemonTypes } from "../../utils/func/formating";
 
 interface CardProps {
   pokemon?: {
     image: string;
     name: string;
-    types: string[];
+    types?: string[];
     id: string;
     isFavorite: boolean;
   };
@@ -79,12 +80,17 @@ const PokemonCard: React.FC<CardProps> = ({
   const prefetchPokemon = () => {
     client.query({
       query: GetPokemonByNameDocument,
-      variables: { name: pokemon.name },
+      variables: { name: pokemon.name.toLowerCase() },
     });
   };
   if (!isFavorite && router.pathname === "/favorites") return null;
   return (
-    <Column as="article" className={styles.card} {...collumnWidth} onMouseOver={prefetchPokemon}>
+    <Column
+      as="article"
+      className={styles.card}
+      {...collumnWidth}
+      onMouseOver={prefetchPokemon}
+    >
       <div
         className={`${styles.content} ${
           layoutType === LayoutType.GRID
@@ -109,19 +115,7 @@ const PokemonCard: React.FC<CardProps> = ({
           <Favorite className={styles.icon} onClick={toggleFavorite} />
         )}
 
-        <p>
-          {types.map((type, index) => {
-            const isLast = types.length === index + 1;
-            const isFirst = index === 0;
-            return (
-              <React.Fragment key={index}>
-                {/* lowercase first letter*/}
-                {isFirst ? type : type[0].toLowerCase() + type.slice(1)}
-                {!isLast && ", "}
-              </React.Fragment>
-            );
-          })}
-        </p>
+        <p>{formatPokemonTypes(types)}</p>
       </div>
     </Column>
   );

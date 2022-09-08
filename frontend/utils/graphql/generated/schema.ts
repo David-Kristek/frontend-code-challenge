@@ -151,7 +151,7 @@ export type GetPokemonByNameQueryVariables = Exact<{
 }>;
 
 
-export type GetPokemonByNameQuery = { __typename?: 'Query', pokemonByName?: { __typename?: 'Pokemon', id: string, name: string, maxCP: number, maxHP: number, sound: string, image: string, isFavorite: boolean, height: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, weight: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, evolutions: Array<{ __typename?: 'Pokemon', id: string, name: string, image: string, isFavorite: boolean }> } | null };
+export type GetPokemonByNameQuery = { __typename?: 'Query', pokemonByName?: { __typename?: 'Pokemon', id: string, name: string, maxCP: number, maxHP: number, sound: string, image: string, types: Array<string>, isFavorite: boolean, height: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, weight: { __typename?: 'PokemonDimension', minimum: string, maximum: string }, evolutions: Array<{ __typename?: 'Pokemon', id: string, name: string, image: string, isFavorite: boolean }> } | null };
 
 export type GetPokemonTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -251,6 +251,7 @@ export const GetPokemonByNameDocument = gql`
     }
     sound
     image
+    types
     isFavorite
     evolutions {
       id

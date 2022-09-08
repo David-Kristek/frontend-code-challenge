@@ -23,12 +23,11 @@ const resolvers = {
       let pokemons = pokemonsData;
       // if (process.env.NODE_ENV === "development")
       // simulates loading
-        await new Promise((res) => setTimeout(res, 500));
+      await new Promise((res) => setTimeout(res, 500));
       if (search) {
         const regex = new RegExp(search, "i");
         pokemons = _.filter(pokemons, (p) => p.name.match(regex));
       }
-      console.log(process.env.NODE_ENV);
       if (filter) {
         if (filter.type) {
           const regex = new RegExp(filter.type, "i");
@@ -54,10 +53,12 @@ const resolvers = {
     },
     pokemonById: (_, args) =>
       pokemonsData.find((pokemon) => pokemon.id === args.id),
-    pokemonByName: (_, args) =>
-      pokemonsData.find(
+    pokemonByName: async (_, args) => {
+      await new Promise((res) => setTimeout(res, 500));
+      return pokemonsData.find(
         (pokemon) => pokemon.name.toLowerCase() === args.name.toLowerCase()
-      ),
+      );
+    },
     pokemonTypes: () =>
       _.uniq(_.flatMap(pokemonsData, (pokemon) => pokemon.types)),
   },
@@ -78,10 +79,7 @@ const resolvers = {
   Pokemon: {
     number: (pokemon) => parseInt(pokemon.id, 10),
     image: (pokemon) =>
-      `https://img.pokemondb.net/artwork/${pokemon.name
-        .toLowerCase()
-        .replace(/[&\\/\\\\#,+()$~%.'":*?<>{}]/g, "")
-        .replace(" ", "-")}.jpg`,
+      `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokemon.id}.png`,
     sound: (pokemon) => `${BASE_URL}/sounds/${parseInt(pokemon.id, 10)}`,
     evolutions: (pokemon) =>
       _.map(pokemon.evolutions || [], (ev) => ({

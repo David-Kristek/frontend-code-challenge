@@ -51,12 +51,12 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
   if (!pokemons) return null;
   return (
     <Grid data-testid={`layout${layoutType}`}>
-      {pokemons.map((pokemon) => (
+      {pokemons.map((pokemon, index) => (
         <PokemonCard
           pokemon={pokemon}
           layoutType={layoutType}
           loading={loading}
-          key={pokemon.id}
+          key={index}
           collumnWidth={collumnWidth}
         />
       ))}

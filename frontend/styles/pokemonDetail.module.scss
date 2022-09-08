@@ -1,0 +1,32 @@
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/breakpoint" as *;
+
+.container {
+    margin: $spacing-07 0;
+}
+.heading {
+    font-size: $spacing-08;
+    font-weight: 500;
+}
+.image {
+    margin-top: $spacing-06;
+    max-width: 100%;
+}
+.pokemonInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: $spacing-05;
+    .around {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        .mHeading {
+            font-weight: bold;
+            padding-bottom: $spacing-02;
+        }
+        p {
+            font-size: 18px;
+        }
+    }
+}

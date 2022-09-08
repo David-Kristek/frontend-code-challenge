@@ -14,6 +14,7 @@ query getPokemonByName($name: String!) {
     }
     sound
     image
+    types
     isFavorite
     evolutions {
       id

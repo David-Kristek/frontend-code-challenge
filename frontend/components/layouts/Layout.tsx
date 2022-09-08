@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </Grid>
       </div>
       <Grid>
-        <Column lg={{ span: 12, offset: 2 }} md={{ span: 8 }} sm={{ span: 4 }}>
+        <Column xlg={{ span: 12, offset: 2 }} lg={{ span: 14, offset: 1 }} md={{ span: 8 }} sm={{ span: 4 }}>
           <main>{children}</main>
         </Column>
       </Grid>
