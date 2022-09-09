@@ -57,8 +57,8 @@ const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading }) => {
           pokemon={pokemon}
           layoutType={layoutType}
           loading={loading}
-          key={index}
           collumnWidth={collumnWidth}
+          key={index}
         />
       ))}
     </Grid>

@@ -65,8 +65,7 @@ const usePokemonFilters = ({ filterFavorite }: usePokemonFiltersProps) => {
         >
           <PokemonTypesDropdown
             setSelected={setSelectedType}
-            selected={selectedType}
-            setLoading={startLoading}
+            startLoading={startLoading}
           />
         </Column>
         <Column

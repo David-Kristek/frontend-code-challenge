@@ -1,4 +1,3 @@
-import React from "react";
 export const formatPokemonTypes = (types?: string[]) => {
   if (!types) return null;
   let text = "";

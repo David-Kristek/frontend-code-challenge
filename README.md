@@ -34,4 +34,5 @@ In addition to the above features, below are some optional features that we'd lo
 - Codegen for generating typescript from graphql 
 - cypress, jest for testing 
 
+:warning: Backend responses are delayed to simulate server IRL, so that I can play more with caching, loading skeletons ... 
 

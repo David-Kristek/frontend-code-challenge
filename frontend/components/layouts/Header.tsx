@@ -1,19 +1,7 @@
-import {
-  ContentSwitcher,
-  Switch,
-  Search,
-  Grid,
-  Column,
-  Row,
-  Dropdown,
-  DropdownSkeleton,
-} from "carbon-components-react";
+import { ContentSwitcher, Switch, Grid, Column } from "carbon-components-react";
 import React, { useEffect, useState } from "react";
 import styles from "./layouts.module.scss";
-import { green } from "@carbon/colors";
 import FullRow from "./FullRow";
-import { Thumbnail_2, Table } from "@carbon/icons-react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const NAV_ROUTES = ["/", "/favorites"];
@@ -22,8 +10,8 @@ const Header: React.FC = () => {
   const router = useRouter();
   const [active, setActive] = useState(0);
   useEffect(() => {
-    setActive(NAV_ROUTES.indexOf(router.pathname))
-  }, [router])
+    setActive(NAV_ROUTES.indexOf(router.pathname));
+  }, [router]);
   return (
     <Grid as="header">
       <FullRow>
